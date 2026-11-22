@@ -67,14 +67,14 @@ const I18N = {
     evWin: 'ตอนชนะ',
     btnResetDiag: 'รีเซ็ตคำตั้งต้น',
     btnSaveCloud: 'เซฟลงคลาวด์',
-    btnStartBattle: 'เริ่มศึกโขกเหม่ง! (นั่งเชียร์อย่างเดียว)',
+    btnStartBattle: 'เริ่มศึกโขกเหม่ง!',
     cheer1: 'เชียร์ซ้าย',
     cheer2: 'เชียร์ขวา',
     btnRematch: 'ตีกันอีกรอบ',
     btnEdit: 'ตั้งค่า',
     btnBackSetup: 'กลับหน้าตั้งค่า',
     btnRestart: 'เริ่มยกใหม่',
-    winnerSuffix: ' ชนะใสๆ หมุนติ้วออกจอไปเลย!'
+    winnerSuffix: ' ชนะ!'
   },
   en: {
     appTitle: 'OC Headbutt Arena',
@@ -109,14 +109,14 @@ const I18N = {
     evWin: 'Victory',
     btnResetDiag: 'Reset Defaults',
     btnSaveCloud: 'Cloud Save',
-    btnStartBattle: 'Start Brawl! (Spectate Only)',
+    btnStartBattle: 'Start Brawl!',
     cheer1: 'Cheer Left',
     cheer2: 'Cheer Right',
     btnRematch: 'Rematch',
     btnEdit: 'Setup',
     btnBackSetup: 'Back to Setup',
     btnRestart: 'Restart',
-    winnerSuffix: ' WINS! Knocked opponent spinning out!'
+    winnerSuffix: ' WINS!!'
   }
 };
 
