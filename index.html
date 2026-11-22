@@ -2,16 +2,18 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>OC Headbutt & Emoji Arena</title>
-  <script src="https://jsdelivr.net"></script>
-  <link href="https://googleapis.com" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ศึกโขกเหม่ง OC</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;700&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 <div class="app-container">
   <div class="navbar">
-    <div class="brand">💥 <span data-i18n="appTitle">OC โขกเหม่ง Arena</span></div>
+    <div class="brand">💥 <span data-i18n="appTitle">ศึกโขกเหม่ง OC</span></div>
     <div class="nav-actions">
       <button class="icon-btn" id="btnLang" onclick="toggleLang()">EN</button>
       <button class="icon-btn" id="btnTheme" onclick="toggleTheme()">🌙</button>
@@ -22,18 +24,18 @@
   <div id="viewAuth" class="view active">
     <div class="card" style="text-align:center; padding-top:24px;">
       <div style="font-size:3rem; margin-bottom:8px;">🥊💫🩴</div>
-      <h2 data-i18n="welcomeTitle">สังเวียนจับ OC โขกเหม่ง!</h2>
-      <p class="helper-note" data-i18n="welcomeDesc">ไม่มีปั้นลูก วัดดวงล้วนๆ นั่งเชียร์ดูน้องวิ่งโขกหัวและปาอิโมจิใส่กันจนหมุนติ้วออกจอ!</p>
+      <h2 data-i18n="welcomeTitle">ศึกโขกเหม่ง OC</h2>
+      <p class="helper-note" data-i18n="welcomeDesc">ใส่ OC สองตัว แล้วนั่งดูมันวิ่งโขกหัว ปาของใส่กันเอง ใครรอดใครแพ้ก็ดูดวงเอา</p>
       <button class="btn btn-primary" onclick="enterGuestMode()" style="margin-bottom:14px;">
-        ⚡ <span data-i18n="btnGuest">เข้าเล่นทันที (ไม่ต้องล็อกอิน)</span>
+        ⚡ <span data-i18n="btnGuest">เข้าเล่นเลย ไม่ต้องล็อกอิน</span>
       </button>
       <div style="border-top:1.5px dashed var(--border); margin: 14px 0; padding-top:14px; text-align:left;">
-        <h3 data-i18n="cloudTitle">☁️ บัญชีอีเมล (เซฟข้อมูลบนคลาวด์)</h3>
+        <h3 data-i18n="cloudTitle">☁️ ล็อกอินเพื่อเซฟบนคลาวด์</h3>
         <input type="email" id="authEmail" placeholder="Email" />
-        <input type="password" id="authPass" placeholder="Password (6+ characters)" />
+        <input type="password" id="authPass" placeholder="Password (อย่างน้อย 6 ตัว)" />
         <div style="display:flex; gap:8px;">
-          <button class="btn btn-secondary" onclick="handleAuth('login')" data-i18n="btnLogin">เข้าสู่ระบบ</button>
-          <button class="btn btn-outline" onclick="handleAuth('signup')" data-i18n="btnSignup">สมัครสมาชิก</button>
+          <button class="btn btn-secondary" onclick="handleAuth('login')" data-i18n="btnLogin">ล็อกอิน</button>
+          <button class="btn btn-outline" onclick="handleAuth('signup')" data-i18n="btnSignup">สมัคร</button>
         </div>
         <p id="authMsg" class="helper-note" style="color:var(--danger); margin-top:8px;"></p>
       </div>
@@ -43,15 +45,15 @@
   <div id="viewSetup" class="view">
     <div class="card" style="padding:12px 16px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <span style="font-weight:700; font-size:0.9rem;">🗺️ <span data-i18n="mapSelectLabel">เลือกเวลาฉาก:</span></span>
+        <span style="font-weight:700; font-size:0.9rem;">🗺️ <span data-i18n="mapSelectLabel">ฉากหลัง:</span></span>
         <select id="mapTimeSelect" style="width:auto; margin:0; padding:6px 10px; font-size:0.85rem;">
-          <option value="auto" data-i18n="mapAuto">ตามเวลาจริง (Auto)</option>
-          <option value="day" data-i18n="mapDay">แมพเช้า (Day)</option>
-          <option value="night" data-i18n="mapNight">แมพมืด (Night)</option>
+          <option value="auto" data-i18n="mapAuto">ตามเวลาเครื่อง</option>
+          <option value="day" data-i18n="mapDay">กลางวัน</option>
+          <option value="night" data-i18n="mapNight">กลางคืน</option>
         </select>
       </div>
       <div style="display:flex; gap:6px; align-items:center;">
-        <input type="text" id="ytLinkInput" style="margin:0; font-size:0.82rem;" placeholder="🎵 วางลิงก์เพลง YouTube (ไม่บังคับ)" />
+        <input type="text" id="ytLinkInput" style="margin:0; font-size:0.82rem;" placeholder="🎵 วางลิงก์ YouTube (ไม่ใส่ก็ได้)" />
         <button class="btn btn-secondary btn-sm" onclick="loadYoutubeMusic()">▶️</button>
       </div>
       <div id="ytPlayerWrap" style="display:none; margin-top:8px;">
@@ -60,8 +62,8 @@
     </div>
 
     <div class="tabs">
-      <button class="tab-btn active" id="tabP1" onclick="switchFighterTab(0)">🔵 <span data-i18n="fighter1">ตัวละครซ้าย (P1)</span></button>
-      <button class="tab-btn" id="tabP2" onclick="switchFighterTab(1)">🔴 <span data-i18n="fighter2">ตัวละครขวา (P2)</span></button>
+      <button class="tab-btn active" id="tabP1" onclick="switchFighterTab(0)">🔵 <span data-i18n="fighter1">ฝั่งซ้าย (P1)</span></button>
+      <button class="tab-btn" id="tabP2" onclick="switchFighterTab(1)">🔴 <span data-i18n="fighter2">ฝั่งขวา (P2)</span></button>
     </div>
 
     <div class="card">
@@ -70,49 +72,49 @@
           <span style="font-size:2.5rem;">👾</span>
         </div>
         <label class="upload-label">
-          🖼️ <span data-i18n="btnUpload">อัปโหลดรูป OC (รองรับ PNG ใส)</span>
+          🖼️ <span data-i18n="btnUpload">อัปรูป OC (PNG พื้นใสสวยสุด)</span>
           <input type="file" id="avatarInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)" />
         </label>
       </div>
 
-      <label style="font-size:0.8rem; font-weight:700;" data-i18n="labelName">ชื่อตัวละคร</label>
+      <label style="font-size:0.8rem; font-weight:700;" data-i18n="labelName">ชื่อ</label>
       <input type="text" id="charName" oninput="saveCurrentForm()" />
 
-      <h3 style="margin-top:8px;">🗣️ <span data-i18n="pronounTitle">สรรพนาม (พิมพ์กำหนดเอง)</span></h3>
+      <h3 style="margin-top:8px;">🗣️ <span data-i18n="pronounTitle">สรรพนาม</span></h3>
       <div class="pronoun-grid">
         <div>
-          <label>{me} <span data-i18n="pMe">แทนตัวเอง</span></label>
+          <label>{me} <span data-i18n="pMe">เรียกตัวเอง</span></label>
           <input type="text" id="pMe" oninput="saveCurrentForm()" />
         </div>
         <div>
-          <label>{you} <span data-i18n="pYou">เรียกอีกฝั่ง</span></label>
+          <label>{you} <span data-i18n="pYou">เรียกอีกฝ่าย</span></label>
           <input type="text" id="pYou" oninput="saveCurrentForm()" />
         </div>
         <div>
-          <label>{they} <span data-i18n="pThey">เรียกกลุ่ม</span></label>
+          <label>{they} <span data-i18n="pThey">เรียกรวมๆ</span></label>
           <input type="text" id="pThey" oninput="saveCurrentForm()" />
         </div>
       </div>
 
-      <h3 style="margin-top:8px;">🎭 <span data-i18n="traitTitle">นิสัย (เลือกผสมได้สูงสุด 4)</span></h3>
-      <p class="helper-note" data-i18n="traitNote">กำหนดลีลาการวิ่ง โขกเหม่ง แย่งของ และอิโมจิอารมณ์บนหัว</p>
+      <h3 style="margin-top:8px;">🎭 <span data-i18n="traitTitle">นิสัย (เลือกได้ไม่เกิน 4)</span></h3>
+      <p class="helper-note" data-i18n="traitNote">นิสัยมีผลกับความไว การพุ่งโขก การแย่งของ และอิโมจิเหนือหัว</p>
       <div class="traits-grid" id="traitsGrid"></div>
       <div id="slidersArea"></div>
 
       <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; margin-bottom:6px;">
-        <h3 style="margin:0;">💬 <span data-i18n="dialogueTitle">คลังคำพูดตามอารมณ์</span></h3>
-        <button class="btn btn-danger" onclick="clearAllDialogues()" data-i18n="btnClearAll">ลบคำตั้งต้นทั้งหมด</button>
+        <h3 style="margin:0;">💬 <span data-i18n="dialogueTitle">คำพูดตอนต่างๆ</span></h3>
+        <button class="btn btn-danger" onclick="clearAllDialogues()" data-i18n="btnClearAll">ลบหมด</button>
       </div>
-      <p class="helper-note" data-i18n="dialogueNote">ใช้ {me}, {you}, {they} แทรกในประโยคได้ หรือลบออกทั้งหมดเพื่อพิมพ์เองล้วนๆ</p>
+      <p class="helper-note" data-i18n="dialogueNote">ใส่ {me} {you} {they} ในประโยคได้ จะถูกแทนด้วยสรรพนามที่ตั้งไว้</p>
 
       <div style="display:flex; gap:6px; margin-bottom:8px;">
         <select id="newDiagEvent" style="width:42%; margin:0; font-size:0.8rem;">
-          <option value="headbutt" data-i18n="evHeadbutt">ตอนพุ่งโขก</option>
-          <option value="throw" data-i18n="evThrow">ตอนปาของ</option>
-          <option value="miss" data-i18n="evMiss">ตอนปาวืด</option>
-          <option value="hurt" data-i18n="evHurt">ตอนโดนตี/โกรธ</option>
-          <option value="stun" data-i18n="evStun">ตอนสตั้นมึนหัว</option>
-          <option value="win" data-i18n="evWin">ตอนชนะ</option>
+          <option value="headbutt" data-i18n="evHeadbutt">พุ่งโขก</option>
+          <option value="throw" data-i18n="evThrow">ปาของ</option>
+          <option value="miss" data-i18n="evMiss">ปาพลาด</option>
+          <option value="hurt" data-i18n="evHurt">โดนตี</option>
+          <option value="stun" data-i18n="evStun">มึนหัว</option>
+          <option value="win" data-i18n="evWin">ชนะ</option>
         </select>
         <input type="text" id="newDiagText" style="margin:0; font-size:0.85rem;" placeholder="..." />
         <button class="btn btn-secondary btn-sm" onclick="addDialogue()">+</button>
@@ -121,13 +123,13 @@
       <div id="dialogueList"></div>
 
       <div style="display:flex; gap:8px; margin-top:10px;">
-        <button class="btn btn-outline btn-sm" onclick="resetDefaultDialogues()" data-i18n="btnResetDiag">รีเซ็ตคำตั้งต้น</button>
-        <button class="btn btn-outline btn-sm" id="btnCloudSave" style="display:none;" onclick="saveToSupabase()">☁️ <span data-i18n="btnSaveCloud">เซฟลงคลาวด์</span></button>
+        <button class="btn btn-outline btn-sm" onclick="resetDefaultDialogues()" data-i18n="btnResetDiag">คืนค่าเดิม</button>
+        <button class="btn btn-outline btn-sm" id="btnCloudSave" style="display:none;" onclick="saveToSupabase()">☁️ <span data-i18n="btnSaveCloud">เซฟขึ้นคลาวด์</span></button>
       </div>
     </div>
 
     <button class="btn btn-primary" style="font-size:1.15rem; padding:15px; box-shadow: 0 6px 18px rgba(255,107,157,0.4);" onclick="startBattle()">
-      🔥 <span data-i18n="btnStartBattle">เริ่มศึกโขกเหม่ง! (นั่งเชียร์อย่างเดียว)</span>
+      🔥 <span data-i18n="btnStartBattle">เริ่มเลย!</span>
     </button>
   </div>
 
@@ -149,8 +151,8 @@
         <div class="ko-title">K.O.!</div>
         <div id="winnerText" style="font-size:1.3rem; font-weight:800; margin-bottom:14px;"></div>
         <div style="display:flex; gap:10px; width:100%; max-width:280px;">
-          <button class="btn btn-primary" onclick="startBattle()">🔄 <span data-i18n="btnRematch">ตีกันอีกรอบ</span></button>
-          <button class="btn btn-outline" style="background:#fff; color:#333;" onclick="backToSetup()">⚙️ <span data-i18n="btnEdit">ตั้งค่า</span></button>
+          <button class="btn btn-primary" onclick="startBattle()">🔄 <span data-i18n="btnRematch">เอาอีกยก</span></button>
+          <button class="btn btn-outline" style="background:#fff; color:#333;" onclick="backToSetup()">⚙️ <span data-i18n="btnEdit">แก้ตัวละคร</span></button>
         </div>
       </div>
     </div>
@@ -161,8 +163,8 @@
     </div>
 
     <div class="battle-controls">
-      <button class="btn btn-outline btn-sm" style="flex:1;" onclick="backToSetup()">⬅️ <span data-i18n="btnBackSetup">กลับหน้าตั้งค่า</span></button>
-      <button class="btn btn-outline btn-sm" style="flex:1;" onclick="startBattle()">🔄 <span data-i18n="btnRestart">เริ่มยกใหม่</span></button>
+      <button class="btn btn-outline btn-sm" style="flex:1;" onclick="backToSetup()">⬅️ <span data-i18n="btnBackSetup">กลับไปตั้งค่า</span></button>
+      <button class="btn btn-outline btn-sm" style="flex:1;" onclick="startBattle()">🔄 <span data-i18n="btnRestart">เริ่มใหม่</span></button>
     </div>
 
     <div class="battle-log" id="battleLog"></div>
